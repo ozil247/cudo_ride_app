@@ -22,15 +22,18 @@ class _UpdateState extends State<Update> {
 
   @override
   Widget build(BuildContext context) {
-
-  final vm = Provider.of<AuthVm>(context);
+    final vm = Provider.of<AuthVm>(context);
     return Scaffold(
-        appBar: AppBar( elevation: 0,
-        title: Text('Profile Update', style: smallTextBlue,),
-        leading: const BackButton(
-          color: Color(0xffFF9E00),
-        ),
-        backgroundColor: primaryColor),
+        appBar: AppBar(
+            elevation: 0,
+            title: Text(
+              'Profile Update',
+              style: smallTextBlue,
+            ),
+            leading: const BackButton(
+              color: Color(0xffFF9E00),
+            ),
+            backgroundColor: primaryColor),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Form(
@@ -50,7 +53,6 @@ class _UpdateState extends State<Update> {
                   ),
                   child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
-                        
                     hint: Text('Type'),
                     iconSize: 16,
                     icon: Icon(
@@ -58,10 +60,12 @@ class _UpdateState extends State<Update> {
                       size: 30,
                       color: Colors.grey,
                     ),
-                    
+                    value: vm.type,
                     isExpanded: true,
                     items: items.map(buildMenuItem).toList(),
-                    onChanged: (value) => setState(() => ()),
+                    onChanged: (value) => setState(() => (
+                      vm.type = "$value"
+                    )),
                   )),
                 ),
                 SizedBox(height: 15),
@@ -82,14 +86,12 @@ class _UpdateState extends State<Update> {
                   ),
                 ),
                 SizedBox(height: 15),
-               
-              
                 TextFormField(
                   controller: vm.address,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      labelText: 'Address'), 
+                      labelText: 'Address'),
                 ),
                 SizedBox(height: 15),
                 TextFormField(
@@ -124,9 +126,7 @@ class _UpdateState extends State<Update> {
                   child: Container(
                     // ignore: sort_child_properties_last
                     child: ElevatedButton(
-                      onPressed: () => {
-                       vm.update(context)
-                      },
+                      onPressed: () => {vm.update(context)},
                       // ignore: sort_child_properties_last
                       child: Text(
                         "Register",
@@ -142,9 +142,10 @@ class _UpdateState extends State<Update> {
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-      value: item,
-      child: Text(
-        item,
-        style: TextStyle(fontSize: 16),
-      ));
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(fontSize: 16),
+        ),
+      );
 }

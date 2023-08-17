@@ -6,12 +6,21 @@ import 'package:cudo_ride_app/auth/register.dart';
 import 'package:cudo_ride_app/home.dart';
 import 'package:cudo_ride_app/utilities/alert.dart';
 import 'package:cudo_ride_app/utilities/server.dart';
+import 'package:cudo_ride_app/utilities/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthVm extends ChangeNotifier {
   final phone = TextEditingController();
+  String type = 'User';
+  final name = TextEditingController();
+  final email = TextEditingController();
+  final address = TextEditingController();
+  final state = TextEditingController();
+  final gender = TextEditingController();
+  final age = TextEditingController();
 
   register(context) async {
     final loader = progressLoader(context);
@@ -63,14 +72,6 @@ class AuthVm extends ChangeNotifier {
     return;
   }
 
-  final type = TextEditingController();
-  final name = TextEditingController();
-  final email = TextEditingController();
-  final address = TextEditingController();
-  final state = TextEditingController();
-  final gender = TextEditingController();
-  final age = TextEditingController();
-
   update(context) async {
     final loader = progressLoader(context);
     loader.show();
@@ -80,11 +81,16 @@ class AuthVm extends ChangeNotifier {
       'state': state.text,
       'address': address.text,
       'age': age.text,
-      'type': type.text,
+      'phone': "234${phone.text}",
+      'type': type,
     });
-    loader.dismiss;
+    loader.dismiss();
+    print(req.body);
     final res = json.decode(req.body);
-    if (req['success'] == true) {
+    if (res['success'] == true) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      LocalStorageService(prefs).setString("token", res['token']);
+      
       successAlert(context, 'Your Profile Have been Updated');
       Get.to(Home());
     } else {
