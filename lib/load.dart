@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import, unused_local_variable
 
 import 'package:ars_dialog/ars_dialog.dart';
 import 'package:cudo_ride_app/utilities/alert.dart';

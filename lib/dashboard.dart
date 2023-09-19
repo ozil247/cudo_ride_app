@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
-import 'package:cudo_ride_app/auth/driver_details_upload.dart';
+import 'package:cudo_ride_app/driver_details_upload.dart';
 import 'package:cudo_ride_app/home.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/vehicle_details_upload.dart';

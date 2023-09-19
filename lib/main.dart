@@ -1,14 +1,20 @@
-// ignore_for_file: prefer_const_constructors, unused_field
+// ignore_for_file: prefer_const_constructors, unused_field, unused_import
 
 import 'package:cudo_ride_app/auth/onboarding.dart';
+import 'package:cudo_ride_app/auth/otp_page.dart';
 import 'package:cudo_ride_app/auth/register.dart';
+import 'package:cudo_ride_app/car_reg.dart';
 import 'package:cudo_ride_app/dashboard.dart';
-import 'package:cudo_ride_app/driver_photo.dart';
+import 'package:cudo_ride_app/driver_details_upload.dart';
 import 'package:cudo_ride_app/home.dart';
 import 'package:cudo_ride_app/load.dart';
 import 'package:cudo_ride_app/splash_screen.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
+import 'package:cudo_ride_app/vehicle_details_upload.dart';
+import 'package:cudo_ride_app/vehicle_doc.dart';
+import 'package:cudo_ride_app/vehicle_photo.dart';
 import 'package:cudo_ride_app/view_models/auth_vm.dart';
+import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +24,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthVm()),
+        ChangeNotifierProvider(create: (_) => VehicleVm()),
       ],
       child: const MyApp(),
     ),
@@ -86,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
       ),
-      home: Onboarding(),
+      home: Splash(),
     );
   }
 }

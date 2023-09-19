@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers, deprecated_member_use, unnecessary_new
+// ignore_for_file: prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers, deprecated_member_use, unnecessary_new, unused_import
 
 import 'package:cudo_ride_app/auth/otp_page.dart';
 import 'package:cudo_ride_app/dashboard.dart';

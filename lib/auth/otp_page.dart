@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import, duplicate_ignore
 
 import 'package:cudo_ride_app/auth/register.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';

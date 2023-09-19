@@ -29,8 +29,8 @@ class Server {
             body: jsonEncode(data), headers: _setHeaders());
       } else {
         response = await http.get(Uri.parse(fullUrl), headers: _setHeaders());
-        // print(response.statusCode);
       }
+        print(token);
 
       if (response.statusCode == 401) {
         errorAlert(context, 'Session expired');

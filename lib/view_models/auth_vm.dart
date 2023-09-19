@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 
 import 'package:ars_dialog/ars_dialog.dart';
@@ -45,6 +47,8 @@ class AuthVm extends ChangeNotifier {
     return;
   }
 
+ 
+
   final otp_code = TextEditingController();
 
   otpVerify(context) async {
@@ -85,12 +89,13 @@ class AuthVm extends ChangeNotifier {
       'type': type,
     });
     loader.dismiss();
+    print("req.body");
     print(req.body);
     final res = json.decode(req.body);
     if (res['success'] == true) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       LocalStorageService(prefs).setString("token", res['token']);
-      
+
       successAlert(context, 'Your Profile Have been Updated');
       Get.to(Home());
     } else {
