@@ -1,24 +1,25 @@
-// ignore_for_file: prefer_const_constructors, unused_import, unnecessary_import, must_be_immutable, duplicate_ignore, prefer_const_literals_to_create_immutables, non_constant_identifier_names, duplicate_import
+// ignore_for_file: prefer_const_constructors
 
-import 'package:cudo_ride_app/auth/otp_page.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
 import 'package:cudo_ride_app/widget/navbar.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cudo_ride_app/widget/user_navbar.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  Home({super.key});
+class UserDashboard extends StatefulWidget {
+
+  const UserDashboard({ super.key });
 
   @override
-  State<Home> createState() => _HomeState();
+  State<UserDashboard> createState() => _UserDashboardState();
 }
 
-class _HomeState extends State<Home> {
-@override
-Widget build(BuildContext context) {
+class _UserDashboardState extends State<UserDashboard> {
+
+   @override
+   Widget build(BuildContext context) {
   return Scaffold(
-    drawer: Navbar(),
+    drawer: UserNavbar(),
     appBar: AppBar(
       iconTheme: IconThemeData(color: secondaryColor),
       backgroundColor: primaryColor,
@@ -26,7 +27,7 @@ Widget build(BuildContext context) {
       title: Row(
         children: [
           Text(
-            'DRIVERS DASHBOARD',
+            'USERS DASHBOARD',
             style: TextStyle(color: secondaryColor),
           ),
         ],

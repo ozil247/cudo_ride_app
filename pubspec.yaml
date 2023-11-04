@@ -47,6 +47,7 @@ dependencies:
   ars_dialog: ^1.0.8
   shared_preferences:
   get: ^4.6.1
+  get_it: ^7.6.4
   
 dev_dependencies:
   flutter_test:

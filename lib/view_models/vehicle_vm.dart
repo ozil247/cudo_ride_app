@@ -27,31 +27,65 @@ class VehicleVm extends ChangeNotifier {
   PlatformFile? interior;
   PlatformFile? video;
 
-  vehicle_reg(context) async{
+  vehicle_reg(context) async {
     final loader = progressLoader(context);
     loader.show();
-    final req = await Server().req(context,'/vehicle-reg', type: 'post', data: {
-      'manufacturer':manufacturer.text,
-      'model':model.text,
-      'year':year.text,
-      'plate_number':plate_number.text,
-      'colour':colour.text,
+    final req =
+        await Server().req(context, '/vehicle-reg', type: 'post', data: {
+      'manufacturer': manufacturer.text,
+      'model': model.text,
+      'year': year.text,
+      'plate_number': plate_number.text,
+      'colour': colour.text,
     });
     loader.dismiss();
     final res = json.decode(req.body);
-    if ( res ['success'] == true) {
+    if (res['success'] == true) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       LocalStorageService(prefs).setString('token', res['token']);
 
       successAlert(context, 'Your Vehicle Details Have Been Submitted');
       Get.to(VehicleDoc());
-    } else{
+    } else {
       errorAlert(context, res['message']);
     }
 
     return;
-
   }
+
+ // photoUpload(context) async {
+ //   final loader = progressLoader(context);
+ //   loader.show();
+//
+ //   if (checkNull(ownership) || checkNull(interior) || checkNull(exterior)) {
+ //     errorAlert(context, "Please upload all required images");
+    //  return;
+//  //  }
+//
+ //   String photo64 = convertBase64(photo);
+  //  String license64 = convertBase64(license);
+//
+  //  final response = await Server()
+ //      .req(context, '/driver/complete-photo', type: 'post', data: {
+    //  'photo': photo,
+  //    'license': license,
+  //  });
+
+  //  loader.dismiss();
+  //  print(response.body);
+  //  final Map<String, dynamic> body = json.decode(response.body);
+   // if (response.statusCode == 422) {
+  //    errorAlert(context, body['errors'].toString());
+  //  }
+//
+  //  if (body['success'] == true) {
+  //    successAlert(context, "Upload successful");
+  //    ownership = null;
+  //    //complete the other
+  //  } else {
+  //    errorAlert(context, body['message']);
+  //  }
+  //}
 
   Future<void> completeProfile(BuildContext context) async {
     final loader = progressLoader(context);
@@ -71,9 +105,11 @@ class VehicleVm extends ChangeNotifier {
       'ownership': ownership64,
       'interior': interior64,
       'exterior': ext64,
+      
     });
 
     loader.dismiss();
+    print(response.body);
     final Map<String, dynamic> body = json.decode(response.body);
     if (response.statusCode == 422) {
       errorAlert(context, body['errors'].toString());
@@ -81,6 +117,12 @@ class VehicleVm extends ChangeNotifier {
 
     if (body['success'] == true) {
       successAlert(context, "Upload successful");
+      ownership = null;
+      interior = null;
+      exterior = null;
+      Get.to(VehicleDoc());
+
+      //complete the other
     } else {
       errorAlert(context, body['message']);
     }

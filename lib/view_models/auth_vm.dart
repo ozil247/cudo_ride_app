@@ -1,12 +1,16 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_constructors
 
 import 'dart:convert';
 
 import 'package:ars_dialog/ars_dialog.dart';
+import 'package:cudo_ride_app/auth/onboarding.dart';
 import 'package:cudo_ride_app/auth/otp_page.dart';
 import 'package:cudo_ride_app/auth/register.dart';
+import 'package:cudo_ride_app/auth/type.dart';
 import 'package:cudo_ride_app/home.dart';
+import 'package:cudo_ride_app/user_dashboard.dart';
 import 'package:cudo_ride_app/utilities/alert.dart';
+import 'package:cudo_ride_app/utilities/getit.dart';
 import 'package:cudo_ride_app/utilities/server.dart';
 import 'package:cudo_ride_app/utilities/storage_service.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +19,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthVm extends ChangeNotifier {
+  //to access storage
+  final storage = getIt.get<LocalStorageService>();
+
   final phone = TextEditingController();
   String type = 'User';
   final name = TextEditingController();
@@ -23,6 +30,30 @@ class AuthVm extends ChangeNotifier {
   final state = TextEditingController();
   final gender = TextEditingController();
   final age = TextEditingController();
+
+  login(context) async {
+    final loader = progressLoader(context);
+    loader.show();
+    final req = await Server().req(
+      context,
+      "/login-otp",
+      type: 'post',
+      data: {'phone': "234${phone.text}"},
+    );
+
+    loader.dismiss();
+
+    final res = json.decode(req.body);
+
+    if (res['success'] == true) {
+      successAlert(context, "OTP Code sent");
+      Get.to(OtpPage());
+    } else {
+      errorAlert(context, res['message']);
+    }
+
+    return;
+  }
 
   register(context) async {
     final loader = progressLoader(context);
@@ -47,8 +78,6 @@ class AuthVm extends ChangeNotifier {
     return;
   }
 
- 
-
   final otp_code = TextEditingController();
 
   otpVerify(context) async {
@@ -69,6 +98,24 @@ class AuthVm extends ChangeNotifier {
     final res = json.decode(req.body);
     if (res['success'] == true) {
       successAlert(context, 'login Successful');
+      Get.to(Type());
+    } else {
+      errorAlert(context, res['message']);
+    }
+    return;
+  }
+
+  userTypes(context) async {
+    final loader = progressLoader(context);
+    loader.show();
+    final req = await Server().req(context, '/user-types', type: 'post', data: {
+      'type': type,
+    });
+     final res = json.decode(req.body);
+    if (res['success'] == true) {
+      storage.setString('token', res['token']);
+
+      successAlert(context, 'Your Profile Have been Updated');
       Get.to(Update());
     } else {
       errorAlert(context, res['message']);
@@ -80,6 +127,7 @@ class AuthVm extends ChangeNotifier {
     final loader = progressLoader(context);
     loader.show();
     final req = await Server().req(context, '/register', type: 'post', data: {
+      'name': name.text,
       'email': email.text,
       'gender': gender.text,
       'state': state.text,
@@ -89,12 +137,9 @@ class AuthVm extends ChangeNotifier {
       'type': type,
     });
     loader.dismiss();
-    print("req.body");
-    print(req.body);
     final res = json.decode(req.body);
     if (res['success'] == true) {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      LocalStorageService(prefs).setString("token", res['token']);
+      storage.setString('token', res['token']);
 
       successAlert(context, 'Your Profile Have been Updated');
       Get.to(Home());
@@ -102,5 +147,17 @@ class AuthVm extends ChangeNotifier {
       errorAlert(context, res['message']);
     }
     return;
+  }
+
+  userType(context) async {
+    final req = await Server().req(context, '/user');
+    final res = json.decode(req.body);
+    if (res['type'] == 'driver') {
+      //redirect to rider
+      Get.offAll(Home());
+    } else {
+      //redirect to user dashboard here
+      Get.offAll(UserDashboard());
+    }
   }
 }

@@ -119,7 +119,9 @@ class _OtpPageState extends State<OtpPage> {
                     height: 50,
                     // ignore: sort_child_properties_last
                     child: ElevatedButton(
-                      onPressed: () { vm.otpVerify(context);},
+                      onPressed: () {
+                        vm.otpVerify(context);
+                      },
                       // ignore: sort_child_properties_last
                       child: Text(
                         'Next',

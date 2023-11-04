@@ -168,7 +168,7 @@ class _VehicleDetailsUploadState extends State<VehicleDetailsUpload> {
                 child: Container(
                   child: ElevatedButton(
                    onPressed: () {
-                    vm.completeProfile(context);
+                    (context);
                   },
                     child: Text(
                       "Submit",

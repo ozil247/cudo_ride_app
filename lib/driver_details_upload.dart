@@ -109,9 +109,8 @@ class _DriverDetailsUploadState extends State<DriverDetailsUpload> {
                 height: 60,
                 child: Container(
                   child: ElevatedButton(
-                    onPressed: () => {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Dashboard()))
+                    onPressed: () {
+                      vm.completeProfile(context);
                     },
                     child: Text(
                       "Submit",

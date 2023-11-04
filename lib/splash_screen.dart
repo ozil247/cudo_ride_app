@@ -1,7 +1,13 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cudo_ride_app/auth/onboarding.dart';
+import 'package:cudo_ride_app/auth/type.dart';
+import 'package:cudo_ride_app/home.dart';
+import 'package:cudo_ride_app/utilities/getit.dart';
+import 'package:cudo_ride_app/utilities/storage_service.dart';
+import 'package:cudo_ride_app/view_models/auth_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Splash extends StatefulWidget {
   Splash({Key? key}) : super(key: key);
@@ -13,18 +19,20 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    super.initState();
+    // super.initState();
     nextPage();
   }
 
   Future<void> nextPage() async {
-    Future.delayed(Duration(seconds: 10), () {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Onboarding(),
-          ));
-    });
+    await Future.delayed(Duration(seconds: 3));
+    final token = getIt.get<LocalStorageService>().getString("token");
+    if (token != '') {
+      await AuthVm().userType(context);
+
+      // await Get.offAll(Home());
+      return;
+    }
+    Get.offAll(Type());
   }
 
   @override
