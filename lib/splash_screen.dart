@@ -19,7 +19,7 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    // super.initState();
+   super.initState();
     nextPage();
   }
 
@@ -29,10 +29,10 @@ class _SplashState extends State<Splash> {
     if (token != '') {
       await AuthVm().userType(context);
 
-      // await Get.offAll(Home());
+       await Get.offAll(Onboarding());
       return;
     }
-    Get.offAll(Type());
+   
   }
 
   @override

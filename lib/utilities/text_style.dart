@@ -26,4 +26,3 @@ TextStyle smallTextYellow = TextStyle(
   fontWeight: FontWeight.w700,
   color: secondaryColor,
 );
-

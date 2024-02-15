@@ -31,29 +31,9 @@ class AuthVm extends ChangeNotifier {
   final gender = TextEditingController();
   final age = TextEditingController();
 
-  login(context) async {
-    final loader = progressLoader(context);
-    loader.show();
-    final req = await Server().req(
-      context,
-      "/login-otp",
-      type: 'post',
-      data: {'phone': "234${phone.text}"},
-    );
 
-    loader.dismiss();
 
-    final res = json.decode(req.body);
 
-    if (res['success'] == true) {
-      successAlert(context, "OTP Code sent");
-      Get.to(OtpPage());
-    } else {
-      errorAlert(context, res['message']);
-    }
-
-    return;
-  }
 
   register(context) async {
     final loader = progressLoader(context);
@@ -78,6 +58,9 @@ class AuthVm extends ChangeNotifier {
     return;
   }
 
+
+
+
   final otp_code = TextEditingController();
 
   otpVerify(context) async {
@@ -97,13 +80,18 @@ class AuthVm extends ChangeNotifier {
 
     final res = json.decode(req.body);
     if (res['success'] == true) {
+      print(res);
       successAlert(context, 'login Successful');
+      getIt.get<LocalStorageService>().setString("token", res['token']);
       Get.to(Type());
     } else {
       errorAlert(context, res['message']);
     }
     return;
   }
+
+
+
 
   userTypes(context) async {
     final loader = progressLoader(context);
@@ -123,9 +111,13 @@ class AuthVm extends ChangeNotifier {
     return;
   }
 
+
+
+
   update(context) async {
     final loader = progressLoader(context);
     loader.show();
+    
     final req = await Server().req(context, '/register', type: 'post', data: {
       'name': name.text,
       'email': email.text,
@@ -138,7 +130,7 @@ class AuthVm extends ChangeNotifier {
     });
     loader.dismiss();
     final res = json.decode(req.body);
-    if (res['success'] == true) {
+    if (res['success'] == true) {  
       storage.setString('token', res['token']);
 
       successAlert(context, 'Your Profile Have been Updated');
@@ -150,14 +142,40 @@ class AuthVm extends ChangeNotifier {
   }
 
   userType(context) async {
-    final req = await Server().req(context, '/user');
-    final res = json.decode(req.body);
-    if (res['type'] == 'driver') {
+    if (type == 'Driver') {
       //redirect to rider
-      Get.offAll(Home());
+      Get.offAll(Update());
     } else {
       //redirect to user dashboard here
       Get.offAll(UserDashboard());
     }
+  }
+
+
+
+
+
+  login(context) async {
+    final loader = progressLoader(context);
+    loader.show();
+    final req = await Server().req(
+      context,
+      "/login-otp",
+      type: 'post',
+      data: {'phone': "234${phone.text}"},
+    );
+
+    loader.dismiss();
+
+    final res = json.decode(req.body);
+
+    if (res['success'] == true) {
+      successAlert(context, "OTP Code sent");
+      Get.to(OtpPage());
+    } else {
+      errorAlert(context, res['message']);
+    }
+
+    return;
   }
 }

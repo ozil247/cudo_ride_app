@@ -14,7 +14,7 @@ class Server {
   final _url = 'http://127.0.0.1:8000/api';
 
   String? token;
-  String kGoogleApiKey = "";
+  String kGoogleApiKey = "AIzaSyDrSWvQXgFfIUyRhr8nHAocrGvIggRGzrA";
 
   _getToken() async {
     token = getIt.get<LocalStorageService>().getString("token");
@@ -23,7 +23,7 @@ class Server {
   req(context, apiUrl, {String? type = 'get', data}) async {
     var fullUrl = _url + apiUrl;
     var response;
-    try {
+    try { 
       await _getToken();
       print(token);
       if (type == 'post') {

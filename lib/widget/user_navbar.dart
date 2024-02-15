@@ -24,11 +24,14 @@ class _UserNavbarState extends State<UserNavbar> {
         // ignore: prefer_const_literals_to_create_immutables
         children: [
           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: primaryColor
+            ),
             accountName: Text(
-              'David Adeleke',
+              'David Adeleke' ,
               style: TextStyle(
                 fontSize: 20,
-                color: primaryColor,
+                color: Colors.white,
               ),
             ),
             accountEmail: Text(

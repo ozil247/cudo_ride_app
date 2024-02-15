@@ -10,6 +10,7 @@ import 'package:cudo_ride_app/dashboard.dart';
 import 'package:cudo_ride_app/driver_details_upload.dart';
 import 'package:cudo_ride_app/home.dart';
 import 'package:cudo_ride_app/load.dart';
+import 'package:cudo_ride_app/ride_request.dart';
 import 'package:cudo_ride_app/splash_screen.dart';
 import 'package:cudo_ride_app/user_dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
@@ -18,26 +19,26 @@ import 'package:cudo_ride_app/vehicle_details_upload.dart';
 import 'package:cudo_ride_app/vehicle_doc.dart';
 import 'package:cudo_ride_app/vehicle_photo.dart';
 import 'package:cudo_ride_app/view_models/auth_vm.dart';
+import 'package:cudo_ride_app/view_models/map_services.dart';
 import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   await setup();
-  
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthVm()),
         ChangeNotifierProvider(create: (_) => VehicleVm()),
+        ChangeNotifierProvider(create: (_) => MapServices()),
       ],
       child: const MyApp(),
     ),
   );
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -45,10 +46,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Colors.grey.shade900,
+        colorScheme: ColorScheme.dark(),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -99,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
       ),
-      home: UserDashboard(),
+      home: RideRequest(),
     );
   }
 }

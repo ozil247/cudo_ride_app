@@ -67,26 +67,24 @@ class _TypeState extends State<Type> {
                               setState(() => (vm.type = "$value")),
                         )),
                       ),
-                      SizedBox(height: 30,),
-
                       SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  //ignore: avoid_unnecessary_containers
-                  child: Container(
-                    // ignore: sort_child_properties_last
-                    child: ElevatedButton(
-                      onPressed: () => {vm.userType (context)},
-                      // ignore: sort_child_properties_last
-                      child: Text(
-                        "Contine As",
-                        style: smallTextBlue,
+                        height: 30,
                       ),
-                    ),
-                  ),
-                ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        //ignore: avoid_unnecessary_containers
+                        child: Container(
+                          child: ElevatedButton(
+                            onPressed: () => {vm.userType(context)},
+                            child: Text(
+                              "Contine As",
+                              style: smallTextBlue,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
-                    
                   ))
                 ],
               ),

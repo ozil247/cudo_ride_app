@@ -101,7 +101,8 @@ class VehicleVm extends ChangeNotifier {
     String ext64 = convertBase64(exterior);
 
     final response = await Server()
-        .req(context, '/driver/complete-details', type: 'post', data: {
+        .req(context, '/driver/complete-details',
+         type: 'post', data: {
       'ownership': ownership64,
       'interior': interior64,
       'exterior': ext64,
