@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
       ),
-      home: RideRequest(),
+      home: Splash(),
     );
   }
 }

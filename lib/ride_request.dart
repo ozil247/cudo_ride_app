@@ -14,7 +14,7 @@ class _RideRequestState extends State<RideRequest> {
    @override
    Widget build(BuildContext context) {
        return Scaffold(
-           appBar: AppBar(title: const Text(''),),
+         
            body: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
@@ -30,8 +30,8 @@ class _RideRequestState extends State<RideRequest> {
                 Container(
                   width: double.infinity,
                   child: Padding(padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [ 
+                  child: Row(
+                    children: [ Image.asset('/assets/cab.png', height: 70, width: 8,), 
 
                     ],
                   ),),

@@ -54,53 +54,6 @@ class _UserDashboardState extends State<UserDashboard> {
     return await Geolocator.getCurrentPosition();
   }
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static final Marker _Location = Marker(
-    markerId: MarkerId('Location'),
-    infoWindow: InfoWindow(title: 'Location'),
-    icon: BitmapDescriptor.defaultMarker,
-    position: LatLng(37.42796133580664, -122.085749655962),
-  );
-
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
-  static final Marker _Destination = Marker(
-    markerId: MarkerId('Destination'),
-    infoWindow: InfoWindow(title: ' Destinaton'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    position: LatLng(37.43296265331129, -122.08832357078792),
-  );
-
-  static final Polyline _KPolyline = Polyline(
-      polylineId: PolylineId('_KPolyLine'),
-      points: [
-        LatLng(37.42796133580664, -122.085749655962),
-        LatLng(37.43296265331129, -122.08832357078792),
-      ],
-      width: 5,
-      color: secondaryColor);
-
-  static final Polygon _KPolygon = Polygon(
-    polygonId: PolygonId('_KPolygon'),
-    points: [
-      LatLng(37.43296265331129, -122.08832357078792),
-      LatLng(37.42796133580664, -122.085749655962),
-      LatLng(37.418, -122.092),
-      LatLng(37.435, -122.092),
-    ],
-    fillColor: Colors.transparent,
-    strokeWidth: 5,
-    strokeColor: secondaryColor,
-  );
-
   @override
   void initState() {
     // TODO: implement initState
@@ -122,7 +75,7 @@ class _UserDashboardState extends State<UserDashboard> {
         title: Row(
           children: [
             Text(
-              'DRIVERS DASHBOARD',
+              'Cudo Ride',
               style: TextStyle(color: secondaryColor),
             ),
           ],
@@ -171,6 +124,7 @@ class _UserDashboardState extends State<UserDashboard> {
                             vm.setMarker(suggestion['place_id'], "pickup");
                             vm.searchController.text =
                                 suggestion['description'];
+                            _displayBottomSheet(context);
                           },
                           itemBuilder: (context, dynamic place) {
                             return ListTile(title: Text(place['description']));
@@ -215,24 +169,13 @@ class _UserDashboardState extends State<UserDashboard> {
                     onSuggestionSelected: (dynamic suggestion) {
                       vm.setMarker(suggestion['place_id'], "dropoff");
                       vm.dropoff.text = suggestion['description'];
+                      _displayBottomSheet(context);
                     },
                     loadingBuilder: (context) =>
                         CircularProgressIndicator.adaptive(),
                     hideKeyboardOnDrag: true,
                     hideSuggestionsOnKeyboardHide: false,
                   ),
-                  SizedBox(
-                    height: 600,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        vm.bookings(context);
-                      },
-                      child: Text('Book'),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -242,17 +185,59 @@ class _UserDashboardState extends State<UserDashboard> {
     );
   }
 
-  Future<void> _goToPlace(Map<String, dynamic> place) async {
-    final double lat = place['geometry']['location']['lat'];
-    final double lng = place['geometry']['location']['lng'];
-
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 12)));
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  _displayBottomSheet(BuildContext context) {
+    final vm = Provider.of<MapServices>(context, listen: false);
+    if (vm.searchController.text == '' || vm.dropoff.text == '') {
+      return;
+    }
+    return showModalBottomSheet(
+        context: context,
+        isDismissible: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        builder: (context) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Card(
+                    child: ListTile(
+                      selectedTileColor: secondaryColor,
+                      leading: Image.asset(
+                        'assets/car.png',
+                        height: 120,
+                        width: 120,
+                      ),
+                      title: Text(
+                        'Cudo Ride',
+                        style: smallTextBlue,
+                      ),
+                      subtitle: Text(
+                        'arrives in 10mins',
+                      ),
+                      trailing: Text(
+                        '  N1000',
+                        style: smallTextBlue,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _displayBottomSheet(context);
+                      },
+                      child: Text('Accept')),
+                )
+              ],
+            ));
   }
 }
