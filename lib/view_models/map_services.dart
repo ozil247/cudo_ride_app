@@ -16,7 +16,9 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart' as poly;
 
 class MapServices extends ChangeNotifier {
   final status = TextEditingController();
-  final amount = TextEditingController();
+  double amount = 0;
+  double distance = 0;
+  bool loading = false;
 
   late Completer<GoogleMapController> fcontroller;
   TextEditingController searchController = TextEditingController();
@@ -49,16 +51,16 @@ class MapServices extends ChangeNotifier {
   }
 
   getSuggestions(String input) async {
-    // String? lat = storage.getString('lat');
-    // String? lng = storage.getString('lng');
-    // String? latLng = "$lat,$lng";
-    String region = 'ca';
+    String? lat = storage.getString('lat');
+    String? lng = storage.getString('lng');
+    String? latLng = "$lat,$lng";
+    String region = 'ng';
     String placesApi = Server().kGoogleApiKey;
 
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=$placesApi&sessiontoken=$token&region=$region';
+        '$baseURL?input=$input&key=$placesApi&sessiontoken=$token&region=$region&radius=500&location=$latLng';
     var response = await http.get(Uri.parse(request));
     // print(response.body);
     if (response.statusCode == 200) {
@@ -71,22 +73,44 @@ class MapServices extends ChangeNotifier {
     return places;
   }
 
-  get_current_location() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+  getCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+      // errorAlert(error.toString());
+    });
 
-    getAddressFromLatLng(position);
+    await Geolocator.getCurrentPosition().then((value) async {
+      if (searchController.text == '') {
+        // await getAddressFromLatLng(value);
+      //  searchController.text =  await getPlaceId(value.latitude, value.longitude);
+      }
+      storage.setString("lat", "${value.latitude}");
+      storage.setString("lng", "${value.longitude}");
+      // pickupLatlng.latitude = value.latitude;
+      await setCameraPosition(value.latitude, value.longitude);
+      notifyListeners();
+    });
   }
 
-  Future<void> getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(position.latitude, position.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      // searchController.text = "${place.name} ${place.country}";
-      setCameraPosition(position.latitude, position.longitude);
-    }).catchError((e) {
-      debugPrint(e);
-    });
+  getPlaceId(latitude, longitude) async {
+    String placesApi = Server().kGoogleApiKey;
+    dynamic place;
+
+    String baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+    String request =
+        '$baseURL?latlng=$latitude,$longitude&key=$placesApi';
+    var response = await http.get(Uri.parse(request));
+
+    if (response.statusCode == 200) {
+      place = json.decode(response.body);
+      await setMarker(place['results'][0]['place_id'], "Pickup");
+      place = place['results'][0]['formatted_address'];
+    } else {
+      print("Failed to autoload location");
+    }
+    return place;
   }
 
   setMarker(String placeId, String name) async {
@@ -177,11 +201,32 @@ class MapServices extends ChangeNotifier {
       "drop_off": dropoff.text,
       "pick_up": searchController.text,
       "status": "pending",
-      "amount": "0",
+      "amount": amount,
     });
 
     final res = json.decode(req.body);
     print(res);
     loader.dismiss();
+  }
+
+  getPrice(context) async {
+    loading = true;
+    notifyListeners();
+    await Future.delayed(Duration(seconds: 3));
+    final distanceInMeters = Geolocator.distanceBetween(
+      dropLatlng!.latitude,
+      dropLatlng!.longitude,
+      pickupLatlng!.latitude,
+      pickupLatlng!.longitude,
+    );
+    distance = distanceInMeters / 1000;
+    amount = distance * 1000;
+   /*  final response = await Server().req(context, '/get-price/$distance');
+     amount = response.body; */
+    loading = false;
+    notifyListeners();
+    print(distance);
+    // await Get.to(Confirmorder());
+    return distanceInMeters;
   }
 }

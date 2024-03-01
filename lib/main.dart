@@ -103,7 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
       ),
-      home: Splash(),
+      home: UserDashboard(),
+      // home: Splash(),
     );
   }
 }

@@ -1,8 +1,7 @@
 // ignore_for_file: unused_import
-
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:intl/intl.dart' as intl;
 import 'package:file_picker/file_picker.dart';
 
 pickFile() async {
@@ -38,4 +37,15 @@ checkNull(v) {
     return true;
   }
   return false;
+}
+
+String formatAmount(dynamic num) {
+  if (num == null) {
+    return '0';
+  }
+  if (num is String) {
+    num = double.parse(num);
+  }
+  num = intl.NumberFormat.decimalPattern().format(num);
+  return num;
 }
