@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers, deprecated_member_use, unnecessary_new, unused_import
 
 import 'package:cudo_ride_app/auth/otp_page.dart';
-import 'package:cudo_ride_app/dashboard.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
 import 'package:flutter/material.dart';

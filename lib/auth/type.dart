@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:cudo_ride_app/auth/otp_page.dart';
-import 'package:cudo_ride_app/dashboard.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
 import 'package:cudo_ride_app/view_models/auth_vm.dart';

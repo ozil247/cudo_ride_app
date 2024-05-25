@@ -4,10 +4,10 @@ import 'package:cudo_ride_app/about_us.dart';
 import 'package:cudo_ride_app/auth/otp_page.dart';
 import 'package:cudo_ride_app/auth/register.dart';
 import 'package:cudo_ride_app/contact_us.dart';
-import 'package:cudo_ride_app/driver_details_upload.dart';
+import 'package:cudo_ride_app/driver/driver_details_upload.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
-import 'package:cudo_ride_app/vehicle_details_upload.dart';
-import 'package:cudo_ride_app/vehicle_doc.dart';
+import 'package:cudo_ride_app/driver/vehicle_details_upload.dart';
+import 'package:cudo_ride_app/driver/vehicle_doc.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatelessWidget {

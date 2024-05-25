@@ -1,52 +1,80 @@
-// ignore_for_file: unused_field, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import, unused_field
 
 import 'dart:io';
 
-import 'package:cudo_ride_app/dashboard.dart';
+import 'package:cudo_ride_app/auth/otp_page.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/helpers.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
-import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
+import 'package:cudo_ride_app/view_models/driver/vehicle_vm.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class VehiclePhoto extends StatefulWidget {
-
-  const VehiclePhoto({ super.key });
+class VehicleDetailsUpload extends StatefulWidget {
+  const VehicleDetailsUpload({super.key});
 
   @override
-  State<VehiclePhoto> createState() => _VehiclePhotoState();
+  State<VehicleDetailsUpload> createState() => _VehicleDetailsUploadState();
 }
 
-class _VehiclePhotoState extends State<VehiclePhoto> {
+class _VehicleDetailsUploadState extends State<VehicleDetailsUpload> {
   FilePickerResult? result;
   String? _fileName;
   PlatformFile? pickedfile;
   bool isLoading = false;
   File? fileToDisplay;
 
-   @override
-   Widget build(BuildContext context) {
-      final vm = Provider.of<VehicleVm>(context);
-       return Scaffold(appBar: AppBar(
+  @override
+  Widget build(BuildContext context) {
+    final vm = Provider.of<VehicleVm>(context);
+    return Scaffold(
+      appBar: AppBar(
         elevation: 0,
-        title: Text(' Vehicle Verification', style: bigTextYellow),
+        title: Text('Vehicles Details', style: bigTextYellow),
         leading: const BackButton(
           color: Color(0xffFF9E00),
         ),
         backgroundColor: primaryColor,
       ),
-           body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Form(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              const SizedBox(
-                height: 100,
-              ),
+              const SizedBox(height: 50),
+              DottedBorder(
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(10),
+                  dashPattern: const [10, 4],
+                  strokeCap: StrokeCap.round,
+                  child: Container(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        isLoading
+                            ? CircularProgressIndicator()
+                            : TextButton(
+                                onPressed: () async {
+                                  vm.license = await pickFile();
+                                  setState(() {});
+                                },
+                                child: Text(
+                                  'Vehicle License',
+                                  style: smallTextBlue,
+                                ),
+                              ),
+                        if (vm.license != null)
+                          Text("${vm.license?.name}"),
+                        const SizedBox(height: 15),
+                      ],
+                    ),
+                  )),
+                  SizedBox(height: 30,),
                DottedBorder(
                   borderType: BorderType.RRect,
                   radius: const Radius.circular(10),
@@ -76,10 +104,10 @@ class _VehiclePhotoState extends State<VehiclePhoto> {
                     ),
                   )),
                   SizedBox(height: 30,),
-              DottedBorder(
+               DottedBorder(
                   borderType: BorderType.RRect,
                   radius: const Radius.circular(10),
-                  dashPattern: [10, 4],
+                  dashPattern: const [10, 4],
                   strokeCap: StrokeCap.round,
                   child: Container(
                     width: double.infinity,
@@ -90,26 +118,25 @@ class _VehiclePhotoState extends State<VehiclePhoto> {
                             ? CircularProgressIndicator()
                             : TextButton(
                                 onPressed: () async {
-                                  vm.exterior = await pickFile();
+                                  vm.insurance = await pickFile();
                                   setState(() {});
                                 },
                                 child: Text(
-                                  'Exterior View',
+                                  'Insurance Certificate',
                                   style: smallTextBlue,
                                 ),
                               ),
-                        if (vm.exterior != null) Text("${vm.exterior?.name}"),
+                        if (vm.insurance != null)
+                          Text("${vm.insurance?.name}"),
                         const SizedBox(height: 15),
                       ],
                     ),
                   )),
-              SizedBox(
-                height: 30,
-              ),
+                  SizedBox(height: 30,),
               DottedBorder(
                   borderType: BorderType.RRect,
                   radius: const Radius.circular(10),
-                  dashPattern: [10, 4],
+                  dashPattern: const [10, 4],
                   strokeCap: StrokeCap.round,
                   child: Container(
                     width: double.infinity,
@@ -120,56 +147,28 @@ class _VehiclePhotoState extends State<VehiclePhoto> {
                             ? CircularProgressIndicator()
                             : TextButton(
                                 onPressed: () async {
-                                  vm.interior = await pickFile();
+                                  vm.road = await pickFile();
                                   setState(() {});
                                 },
                                 child: Text(
-                                  'Interior View',
+                                  'Certificate of road-worthiness',
                                   style: smallTextBlue,
                                 ),
                               ),
-                        if (vm.interior != null) Text("${vm.interior?.name}"),
+                        if (vm.road != null)
+                          Text("${vm.road?.name}"),
                         const SizedBox(height: 15),
                       ],
                     ),
                   )),
-              SizedBox(height: 30),
-               
-              DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(10),
-                  dashPattern: [10, 4],
-                  strokeCap: StrokeCap.round,
-                  child: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        isLoading
-                            ? CircularProgressIndicator()
-                            : TextButton(
-                                onPressed: () async {
-                                  vm.video = await pickFile();
-                                  setState(() {});
-                                },
-                                child: Text(
-                                  'Video Of The Entire Vehicle',
-                                  style: smallTextBlue,
-                                ),
-                              ),
-                        if (vm.video != null) Text("${vm.video?.name}"),
-                        const SizedBox(height: 15),
-                      ],
-                    ),
-                  )),
-              SizedBox(height: 30),
+                  SizedBox(height: 30,),
               SizedBox(
                 width: double.infinity,
                 height: 60,
                 child: Container(
                   child: ElevatedButton(
-                     onPressed: () {
-                    vm.completeProfile(context);
+                   onPressed: () {
+                    (context);
                   },
                     child: Text(
                       "Submit",

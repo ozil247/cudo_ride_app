@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cudo_ride_app/user_dashboard.dart';
 import 'package:cudo_ride_app/utilities/alert.dart';
 import 'package:cudo_ride_app/utilities/getit.dart';
 import 'package:cudo_ride_app/utilities/server.dart';
@@ -8,6 +11,7 @@ import 'package:cudo_ride_app/utilities/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +20,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart' as poly;
 
 class MapServices extends ChangeNotifier {
   final status = TextEditingController();
-  double amount = 0;
+  dynamic amount = 0;
   double distance = 0;
   bool loading = false;
 
@@ -84,7 +88,7 @@ class MapServices extends ChangeNotifier {
     await Geolocator.getCurrentPosition().then((value) async {
       if (searchController.text == '') {
         // await getAddressFromLatLng(value);
-      //  searchController.text =  await getPlaceId(value.latitude, value.longitude);
+        //  searchController.text =  await getPlaceId(value.latitude, value.longitude);
       }
       storage.setString("lat", "${value.latitude}");
       storage.setString("lng", "${value.longitude}");
@@ -99,8 +103,7 @@ class MapServices extends ChangeNotifier {
     dynamic place;
 
     String baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
-    String request =
-        '$baseURL?latlng=$latitude,$longitude&key=$placesApi';
+    String request = '$baseURL?latlng=$latitude,$longitude&key=$placesApi';
     var response = await http.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
@@ -207,6 +210,14 @@ class MapServices extends ChangeNotifier {
     final res = json.decode(req.body);
     print(res);
     loader.dismiss();
+
+    if (res['success'] == true) {
+      successAlert(context, 'Your driver is on the way');
+      Get.to(UserDashboard());
+    } else {
+      errorAlert(context, res['message']);
+    }
+    return;
   }
 
   getPrice(context) async {
@@ -219,10 +230,11 @@ class MapServices extends ChangeNotifier {
       pickupLatlng!.latitude,
       pickupLatlng!.longitude,
     );
-    distance = distanceInMeters / 1000;
-    amount = distance * 1000;
-   /*  final response = await Server().req(context, '/get-price/$distance');
-     amount = response.body; */
+    /*  distance = distanceInMeters / 1000;
+    amount = distance * 1000; */
+    final response = await Server().req(context, '/get-price/$distance');
+    amount = response.body;
+    print(response.body);
     loading = false;
     notifyListeners();
     print(distance);

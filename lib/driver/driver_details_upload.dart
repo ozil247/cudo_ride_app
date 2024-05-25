@@ -2,11 +2,11 @@
 
 import 'dart:io';
 
-import 'package:cudo_ride_app/dashboard.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/helpers.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
-import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
+import 'package:cudo_ride_app/view_models/driver/vehicle_vm.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

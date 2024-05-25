@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cudo_ride_app/dashboard.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
-import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
+import 'package:cudo_ride_app/view_models/driver/vehicle_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

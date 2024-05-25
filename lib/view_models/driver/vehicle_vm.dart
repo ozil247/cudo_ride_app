@@ -6,7 +6,7 @@ import 'package:cudo_ride_app/utilities/alert.dart';
 import 'package:cudo_ride_app/utilities/helpers.dart';
 import 'package:cudo_ride_app/utilities/server.dart';
 import 'package:cudo_ride_app/utilities/storage_service.dart';
-import 'package:cudo_ride_app/vehicle_doc.dart';
+import 'package:cudo_ride_app/driver/vehicle_doc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

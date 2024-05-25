@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cudo_ride_app/car_reg.dart';
-import 'package:cudo_ride_app/dashboard.dart';
-import 'package:cudo_ride_app/driver_details_upload.dart';
+import 'package:cudo_ride_app/driver/car_reg.dart';
+import 'package:cudo_ride_app/driver/dashboard.dart';
+import 'package:cudo_ride_app/driver/driver_details_upload.dart';
 import 'package:cudo_ride_app/utilities/colors.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
-import 'package:cudo_ride_app/vehicle_details_upload.dart';
-import 'package:cudo_ride_app/vehicle_photo.dart';
+import 'package:cudo_ride_app/driver/vehicle_details_upload.dart';
+import 'package:cudo_ride_app/driver/vehicle_photo.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDoc extends StatefulWidget {

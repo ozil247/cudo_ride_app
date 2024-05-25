@@ -7,7 +7,7 @@ import 'package:cudo_ride_app/utilities/helpers.dart';
 import 'package:cudo_ride_app/utilities/locations_service.dart';
 import 'package:cudo_ride_app/utilities/text_style.dart';
 import 'package:cudo_ride_app/view_models/map_services.dart';
-import 'package:cudo_ride_app/view_models/vehicle_vm.dart';
+import 'package:cudo_ride_app/view_models/driver/vehicle_vm.dart';
 import 'package:cudo_ride_app/widget/navbar.dart';
 import 'package:cudo_ride_app/widget/user_navbar.dart';
 import 'package:flutter/material.dart';
@@ -199,7 +199,7 @@ class _UserDashboardState extends State<UserDashboard> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                _displayBottomSheet(context);
+              vm.bookings(context);
               },
               child: Text('Accept'),
             ),
