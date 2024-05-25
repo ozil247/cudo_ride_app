@@ -39,6 +39,12 @@ class _ContactUsState extends State<ContactUs> {
                       child: Text('We Will get back to you within 24 hours',style: bigTextBlue,),
                     )
                   ],
+                   children: [
+                    SizedBox(
+                      width: 350,
+                      child: Text('We Will get back to you within 24 hours',style: bigTextBlue,),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 20,
