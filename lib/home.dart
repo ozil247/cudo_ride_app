@@ -6,6 +6,7 @@ import 'package:cudo_ride_app/utilities/text_style.dart';
 import 'package:cudo_ride_app/widget/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -15,108 +16,92 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    drawer: Navbar(),
-    appBar: AppBar(
-      iconTheme: IconThemeData(color: secondaryColor),
-      backgroundColor: primaryColor,
-      elevation: 0,
-      title: Row(
-        children: [
-          Text(
-            'DRIVERS DASHBOARD',
-            style: TextStyle(color: secondaryColor),
-          ),
-        ],
-      ),
-      centerTitle: true,
-    ),
-    body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
+  bool status = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: Navbar(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: secondaryColor),
+        elevation: 0,
+        title: Row(
           children: [
-            // ignore: prefer_const_constructors
-            SizedBox(
-              height: 50,
-            ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  child: ClipOval(
-                    child: imageProfile(context),
-                  ),
-                ),
                 SizedBox(
-                  width: 20,
+                  width: 340,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Hello ,  ',
-                          style:
-                              TextStyle(color: Colors.black, fontSize: 14)),
-                      TextSpan(
-                          text: 'Mr. Ozil',
-                          style: TextStyle(
-                              color: secondaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold))
-                    ])),
-                    Text(
-                      'Your Destination Please',
-                      style: bigTextBlue,
-                    )
-                  ],
-                )
+                FlutterSwitch(
+                    width: 130,
+                    height: 50,
+                    valueFontSize: 25,
+                    borderRadius: 30,
+                    toggleSize: 30,
+                    padding: 8,
+                    activeColor: primaryColor,
+                    inactiveText: 'Offline',
+                    activeText: 'Online',
+                    showOnOff: true,
+                    value: status,
+                    onToggle: (val) {
+                      setState(() {
+                        status = val;
+                      });
+                    })
               ],
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  labelText: 'Search Services',
-                  prefixIcon: Icon(Icons.search)),
-            ),
-            // ignore: prefer_const_constructors
-            SizedBox(
-              height: 10,
-            ),
+            )
           ],
-        )),
-  );
-}
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              // ignore: prefer_const_constructors
+              SizedBox(
+                height: 50,
+              ),
+
+              SizedBox(
+                height: 40,
+              ),
+
+              // ignore: prefer_const_constructors
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          )),
+    );
+  }
 }
 
 Widget imageProfile(context) {
-return Center(
-  child: Stack(
-    children: [
-      CircleAvatar(
-        radius: 30.0,
-        backgroundImage: AssetImage('assets/per.png'),
-      ),
-      Positioned(
-        bottom: 5.0,
-        right: 3.0,
-        child: InkWell(
-          onTap: () {},
-          // ignore: prefer_const_constructors
-          child: Icon(
-            Icons.camera_alt,
-            color: primaryColor,
-            size: 15.0,
+  return Center(
+    child: Stack(
+      children: [
+        CircleAvatar(
+          radius: 30.0,
+          backgroundImage: AssetImage(
+            'assets/per.png',
           ),
         ),
-      ),
-    ],
-  ),
-);
+        Positioned(
+          bottom: 5.0,
+          right: 3.0,
+          child: InkWell(
+            onTap: () {},
+            // ignore: prefer_const_constructors
+            child: Icon(
+              Icons.camera_alt,
+              color: primaryColor,
+              size: 20.0,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
