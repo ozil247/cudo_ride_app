@@ -85,7 +85,7 @@ class _UserDashboardState extends State<UserDashboard> {
                     children: [
                       TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
-                          controller: vm.searchController,
+                          controller: vm.searchController, 
                           decoration: InputDecoration(
                             labelText: 'Pickup Location',
                             hintStyle: smallTextBlue,

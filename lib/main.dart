@@ -104,8 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ),
       ),
-      // home: Dashboard(),
-      home: Dashboard(),
+      home: Splash(),
     );
   }
 }

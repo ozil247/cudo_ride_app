@@ -230,11 +230,11 @@ class MapServices extends ChangeNotifier {
       pickupLatlng!.latitude,
       pickupLatlng!.longitude,
     );
-    /*  distance = distanceInMeters / 1000;
-    amount = distance * 1000; */
-    final response = await Server().req(context, '/get-price/$distance');
-    amount = response.body;
-    print(response.body);
+    distance = distanceInMeters / 1000;
+    amount = distance * 1000;
+    // final response = await Server().req(context, '/get-price/$distance');
+    // amount = response.body;
+    // print(response.body);
     loading = false;
     notifyListeners();
     print(distance);

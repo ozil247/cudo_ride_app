@@ -7,6 +7,7 @@ import 'package:cudo_ride_app/widget/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:slider_button/slider_button.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool status = false;
+  bool status = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,34 +27,28 @@ class _HomeState extends State<Home> {
         elevation: 0,
         title: Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: 340,
-                ),
-                FlutterSwitch(
-                    width: 130,
-                    height: 50,
-                    valueFontSize: 25,
-                    borderRadius: 30,
-                    toggleSize: 30,
-                    padding: 8,
-                    activeColor: primaryColor,
-                    inactiveText: 'Offline',
-                    activeText: 'Online',
-                    showOnOff: true,
-                    value: status,
-                    onToggle: (val) {
-                      setState(() {
-                        status = val;
-                      });
-                    })
-              ],
-            )
+            SizedBox(
+              width: 220,
+            ),
+            FlutterSwitch(
+                width: 120,
+                height: 40,
+                valueFontSize: 20,
+                borderRadius: 30,
+                toggleSize: 30,
+                padding: 8,
+                activeColor: primaryColor,
+                inactiveText: 'Offline',
+                activeText: 'Online',
+                showOnOff: true,
+                value: status,
+                onToggle: (val) {
+                  setState(() {
+                    status = val;
+                  });
+                })
           ],
         ),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -61,16 +56,64 @@ class _HomeState extends State<Home> {
             children: [
               // ignore: prefer_const_constructors
               SizedBox(
-                height: 50,
+                height: 500,
               ),
-
-              SizedBox(
-                height: 40,
-              ),
-
-              // ignore: prefer_const_constructors
-              SizedBox(
-                height: 10,
+              Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    child: Container(
+                        width: double.infinity,
+                        height: 150,
+                        child: Card(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        //please change Dashboard to Register
+                                        builder: (context) => OtpPage(),
+                                      ),
+                                    );
+                                  },
+                                  // ignore: sort_child_properties_last
+                                  child: Text(
+                                    'Accept',
+                                    style: smallTextBlue,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 70,),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        //please change Dashboard to Register
+                                        builder: (context) => OtpPage(),
+                                      ),
+                                    );
+                                  },
+                                  // ignore: sort_child_properties_last
+                                  child: Text(
+                                    'Cancel',
+                                    style: smallTextBlue,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
+                  ),
+                ],
               ),
             ],
           )),
@@ -84,9 +127,7 @@ Widget imageProfile(context) {
       children: [
         CircleAvatar(
           radius: 30.0,
-          backgroundImage: AssetImage(
-            'assets/per.png',
-          ),
+          backgroundImage: AssetImage('assets/per.png'),
         ),
         Positioned(
           bottom: 5.0,
@@ -97,7 +138,7 @@ Widget imageProfile(context) {
             child: Icon(
               Icons.camera_alt,
               color: primaryColor,
-              size: 20.0,
+              size: 15.0,
             ),
           ),
         ),
